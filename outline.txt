@@ -1,0 +1,11 @@
+Objective:
+"The overall question we're posing is after analyzing all of the data: 
+what trends and best practices can you show for the highly successful 
+students in the courses vs. the students who did poorly?"
+
+E.x. 
+"Some things to investigate would be time in MyLab, time spent on each 
+of the different assignment types, time spent in the eBook, what settings
+were given on the assignments ( multiple submissions allowed, late submissions, etc) 
+and did that have an impact?.  Did students use Learning Aids in the assignments? Was Covid a factor?"
+
