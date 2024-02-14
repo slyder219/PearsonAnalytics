@@ -1,5 +1,6 @@
 import pandas as pd
 from datetime import datetime
+import json 
 
 # the time formats are hr:mn:sc and this is annoying to work with we're gonna simpligy to seconds
 def time_to_seconds(time_str):
@@ -10,6 +11,9 @@ def time_to_seconds(time_str):
 def cleanse():
     
     df = pd.read_csv('Data/StudentTimeOnCapstoneVsScore.csv')
+
+    # drop any rows that are perfect duplicates
+    df = df.drop_duplicates()
 
     # strip white space where we can 
     df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
@@ -68,7 +72,8 @@ def cleanse():
     aggregations = {
         'TimeOnTaskSeconds': 'mean',
         'Score': 'mean',
-        'Number Of Attempts': 'mean'
+        'Number Of Attempts': 'mean',
+        'Course Name': 'first',
     }
 
     grouped_df = df.groupby("StudentID").agg(aggregations).reset_index()
@@ -80,8 +85,15 @@ def cleanse():
     grouped_df = grouped_df.rename(columns={
         'TimeOnTaskSeconds': 'AvgSecsOnCapstoneTask',
         'Score': 'AvgCapstoneScore',
-        'Number Of Attempts': 'AvgNumAttempts'
+        'Number Of Attempts': 'AvgNumAttemptsCapstone'
     })
+
+    # map sessions on Course Name 
+    with open("sessionMap.json","r") as file:
+        mappingData = json.load(file)
+
+    # map mappingData to Course Name
+    grouped_df['Course Name'] = grouped_df['Course Name'].map(mappingData)
     
 
 

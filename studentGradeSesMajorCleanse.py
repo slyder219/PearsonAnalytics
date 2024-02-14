@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 
 
 def cleanse():
@@ -48,11 +49,19 @@ def cleanse():
         'E': 0
     }
 
-    # df['NumericalGrade'] = df['Official Grade'].map(grade_mapping)
+    df['NumericalGrade'] = df['Official Grade'].map(grade_mapping)
 
+    # session mapping
+    with open("sessionMap.json","r") as file:
+        sessionMap = json.load(file)
 
+    # map section from json file
+    df['Session'] = df['Session'].map(sessionMap)
 
-    print(df['Level'].unique())
+    
+
+    # drop any duplicate rows
+    df = df.drop_duplicates()
 
     # output csv
     df.to_csv('Data_Outputs/cleaned_studentGradeSesMajor.csv', index=False)

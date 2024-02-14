@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-
+import json 
 
 
 def sessionDataCleanse():
@@ -57,15 +57,35 @@ def addSecondsColumn(cleanedDF):
     df['TotalLogins'] = df['TotalLogins'].astype(int)
 
     # Calculate average session time in seconds
-    df['AvgSesSeconds'] = df['TotalTimeSeconds'] / df['TotalLogins']
+    df['AvgSessionSeconds'] = df['TotalTimeSeconds'] / df['TotalLogins']
 
     # Round the average session time to the nearest whole number
-    df['AvgSesSeconds'] = df['AvgSesSeconds'].round().astype(int)
+    df['AvgSessionSeconds'] = df['AvgSessionSeconds'].round().astype(int)
 
     # also make student id, avg logins, and num submissions integers
     # df['StudentID'] = df['StudentID'].astype(int)
     df['AvgNumLogins'] = df['AvgNumLogins'].astype(int)
     df['NumSubmissions'] = df['NumSubmissions'].astype(int)
+
+    # drop any duplicate rows
+    df = df.drop_duplicates()
+
+    # copy the df
+    df2 = df.copy()
+
+    # map section from json file
+    with open("sessionMap.json","r") as file:
+        mappingData = json.load(file)
+    
+    # map section column
+    df2['Section'] = df2['Section'].map(mappingData)
+
+    # rename section column to Session
+    df2 = df2.rename(columns={'Section': 'Session'})
+
+    # merge the two dataframes
+    df = df2 
+
 
     # Save the updated DataFrame to a CSV file
     df.to_csv('Data_Outputs/cleaned_session_data.csv', index=False)
