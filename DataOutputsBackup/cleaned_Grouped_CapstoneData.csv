@@ -1,4 +1,4 @@
-StudentID,AvgSecsOnCapstoneTask,AvgCapstoneScore,AvgNumAttemptsCapstone,Course Name
+StudentID,AvgSecsOnCapstoneTask,AvgCapstoneScore,AvgNumAttemptsCapstone,Session
 1001.0,14.67,0.92,1.33,6399
 1002.0,16.75,0.85,1.0,Spring 2022
 1003.0,15.0,0.47,1.0,Spring 2022

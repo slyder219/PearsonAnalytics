@@ -94,6 +94,10 @@ def cleanse():
 
     # map mappingData to Course Name
     grouped_df['Course Name'] = grouped_df['Course Name'].map(mappingData)
+
+    # rename Course Name to Session
+    grouped_df = grouped_df.rename(columns={'Course Name': 'Session'})
+    
     
 
 
