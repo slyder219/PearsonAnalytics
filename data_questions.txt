@@ -1,0 +1,5 @@
+Questions about the data
+
+- Duplicate student IDs. Did they take both sessions? Did you resuse IDs for each session?
+
+- What does activity level mean 
