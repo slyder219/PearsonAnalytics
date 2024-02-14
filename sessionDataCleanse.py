@@ -50,6 +50,23 @@ def addSecondsColumn(cleanedDF):
     # Add a new column 'TotalTimeSeconds' to the DataFrame
     df['TotalTimeSeconds'] = df['TotalCourseTime'].apply(time_to_seconds)
 
+    # Convert 'TotalTimeSeconds' column to integer
+    df['TotalTimeSeconds'] = df['TotalTimeSeconds'].astype(int)
+
+    # Convert 'TotalLogins' column to integer
+    df['TotalLogins'] = df['TotalLogins'].astype(int)
+
+    # Calculate average session time in seconds
+    df['AvgSesSeconds'] = df['TotalTimeSeconds'] / df['TotalLogins']
+
+    # Round the average session time to the nearest whole number
+    df['AvgSesSeconds'] = df['AvgSesSeconds'].round().astype(int)
+
+    # also make student id, avg logins, and num submissions integers
+    # df['StudentID'] = df['StudentID'].astype(int)
+    df['AvgNumLogins'] = df['AvgNumLogins'].astype(int)
+    df['NumSubmissions'] = df['NumSubmissions'].astype(int)
+
     # Save the updated DataFrame to a CSV file
     df.to_csv('Data_Outputs/cleaned_session_data.csv', index=False)
 
