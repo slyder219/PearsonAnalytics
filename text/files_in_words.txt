@@ -1,0 +1,139 @@
+
+CapstoneData / GroupedCapstoneData
+
+    Fields (after cleaning)
+
+        Course Name: self explanatory. also includes session details. Can parse if we decide we care about sessions. 
+
+        Activty Name: self explanatory , ex. Chapter 10 CapstoneData
+
+        Instructor: Either Nim or Nim and Liu. Don't really care about this. 
+
+        Type: All "homeworks." Useless. 
+
+        Record in Gradebook: All "highest," useless. 
+
+        Attempt Selected: All "recorded in gradebook," useless
+
+        Activity Level Average Score: Percentage. Assuming this is the class average score for that activity. 
+
+        Activitly Level Average Time on Task: hr:mn:sc. Self explanatory. 
+
+        Number of attempts: Num of attempts student used.
+
+        Submitted: Date and Timestamp. Don't care. 
+
+        Grade: Mostly null. Letter grades. Useless. 
+
+        Score: The student's score on that activity. Percentage. 
+
+        Time on task: Student's time spent on the activity. hr:mn:sc
+
+        StudentID: self explanatory. Not primary key until we filter for session. 
+
+        AvgActivityLevelSeconds: Made to convert the relevant column to seconds, for analysis. 
+
+        TimeOnTaskSeconds: Same as previous but for time on task. 
+
+SessionData 
+
+    Fields (after cleaning)
+
+        StudentID: Self explanatory. Not primary key until filtered by session. 
+
+        AvgNumLogins: What does this average? Not sure because TotalLogins exists. 
+
+        NumSubmissions: Student's total number of submissions
+
+        TotalCourseTime: hr:mn:sc. Student's total time spent in course. 
+
+        TotalLogins: Student's total number of logins for the course
+
+        LastLogin: Don't care
+
+        Enrollment date: Don't care
+
+        Instructor: Don't care unless we want to differentiate between classes with only nim vs those with nim and Liu
+
+        Session: Class session. Ex. Spring 2022. Has been standardized. 
+
+        TotalTimeSeconds: Student's total time in course in seconds, for analysis 
+
+        AvgSessionSeconds: Student's total time / NumLogins to get average time per login or session. 
+
+StudentGradeSessionMajor 
+
+    Fields (after cleaning)
+
+            Roster Grade: Self ex.
+
+            Official Grade: self ex. 
+
+            Grading Basis: All "GRD," useless
+
+            Program and Plan: Major. Don't really care but made a dummy variable for if they are Business Admins in case that proves interesting
+
+            Level: Class, ex. Senior. Created dummies for this. 
+
+            Session: Session. Standardized. 
+
+            StudentID: Self ex. Not primary key until filterd by session. Why?
+
+            Next 4 fields: Boolean dummies for class levels and then Business Admin. 
+
+            NumericalGrade: Grade needs to be number for model. This is the letter grade translated to numerical 4.0 scale.
+
+ClassSession
+
+    Fields
+
+        Class: with class code
+
+        Class Title: self ex.
+
+        Enrolled: int
+
+        Days & Times: Self ex. Don't care
+
+        Room: Don't care
+
+        Class Dates: data range where the session ran 
+
+StatsForEachSimulation 
+
+    This is stats about questions. Not tied to studentID. 
+
+    Fields:
+
+        Question Title: self ex. 
+
+        Section: Session
+
+        Instructor: -
+
+        Training(Chapter): Chapter number / title. Would have to parse to get Chatper as int is we want to use in analyzing 
+
+        Application: All Access. Useless
+
+        Type: All SIM5 Question. Useless. 
+
+        Average Time on Task: Average student time on the task. hr:mn:sc. Would make calcualted seconds column if we care to use.
+
+        No. of Times Question Presented: self ex. Int. 
+
+        % Correct(Guided / Unguided): Percentage. Not quite sure what guided/unguided means
+
+        Correct(Unguided): Int. Number of correct submissions while using hints?
+
+        Correct(Guided): Int. Number of correct without using hints?
+        
+        Skipped: Int. Mostly 0. Don't think we care. 
+
+StudentTimeOnTrainingVsScore
+
+    This is capstoneData, just with trainings instead of capstones. 
+    Lots of null data. Also, mostly scores of 0 or 100. 
+    If you recall how the trainings were scored, it is no measure of grade. 
+    On a pracitcal level i don't think this data is useful. 
+
+
