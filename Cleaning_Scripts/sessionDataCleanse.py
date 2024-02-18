@@ -14,7 +14,7 @@ def sessionDataCleanse():
     for index, row in df.iterrows():
 
         # check if we have header table, if so then grab header info 
-        if row['Status'] == "	Active":
+        if "BITM" in row["Section"]:
             data = {
                 "StudentID": row["StudentID"],
                 "AvgNumLogins": row["AvgNumLogins"].strip(),
