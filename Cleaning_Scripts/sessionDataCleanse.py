@@ -86,6 +86,19 @@ def addSecondsColumn(cleanedDF):
     # merge the two dataframes
     df = df2 
 
+    # EnrollmentDate format: 8/31/2021 3:17:52 PM
+    # Last Login Format: 11/22/2021 7:32:11 PM
+    # caclulate time between enrollment and last login
+    df['EnrollmentDate'] = pd.to_datetime(df['EnrollmentDate'], format='%m/%d/%Y %I:%M:%S %p')
+    df['LastLogin'] = pd.to_datetime(df['LastLogin'], format='%m/%d/%Y %I:%M:%S %p')
+    df['LastLogin_less_EnrollmentDate'] = df['LastLogin'] - df['EnrollmentDate']
+
+    # output looks like: 83 days 04:14:19
+    # convert to just days
+    df['DaysUsed'] = df['LastLogin_less_EnrollmentDate'].dt.days
+
+
+
 
     # Save the updated DataFrame to a CSV file
     df.to_csv('Data_Outputs/cleaned_session_data.csv', index=False)
