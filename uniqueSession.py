@@ -2,7 +2,7 @@ import pandas as pd
 
 
 def uniqueSession(df, sessionColName):
-    # print all unqiue sessions names
+    # get all unqiue sessions names
     return df[sessionColName].unique()
 
 
@@ -23,10 +23,10 @@ def printAll():
 
     df = pd.read_csv("Data_Outputs/cleaned_session_data.csv")
 
-    sessions.extend(uniqueSession(df, 'Section'))
+    sessions.extend(uniqueSession(df, 'Session'))
 
     print(
-        f"Session Data Sheet:\n{uniqueSession(df, 'Section')}\n"
+        f"Session Data Sheet:\n{uniqueSession(df, 'Session')}\n"
     )
 
     df = pd.read_csv("Data_Outputs/cleaned_CapstoneData.csv")
