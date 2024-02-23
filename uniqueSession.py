@@ -6,36 +6,14 @@ def uniqueSession(df, sessionColName):
     return df[sessionColName].unique()
 
 
-def printAll():
-
-    print()
-
-    df = pd.read_csv('Data_Outputs/cleaned_studentGradeSesMajor.csv')
-
-    # add unqiues to list
+def printAll(filepaths):
     sessions = []
-    sessions.extend(uniqueSession(df, 'Session'))
 
+    for filepath in filepaths:
+        df = pd.read_csv(filepath)
+        sessions.extend(uniqueSession(df, 'Session'))
 
-    print(
-        f"Student Grade Major Sheet:\n{uniqueSession(df, 'Session')}\n"
-    )
-
-    df = pd.read_csv("Data_Outputs/cleaned_session_data.csv")
-
-    sessions.extend(uniqueSession(df, 'Session'))
-
-    print(
-        f"Session Data Sheet:\n{uniqueSession(df, 'Session')}\n"
-    )
-
-    df = pd.read_csv("Data_Outputs/cleaned_CapstoneData.csv")
-
-    sessions.extend(uniqueSession(df, 'Course Name'))
-
-    print(
-        f"Capstone Data Sheet:\n{uniqueSession(df, 'Course Name')}\n"
-    )
+        print(f"{filepath}:\n{uniqueSession(df, 'Session')}\n")
 
     unqiues = list(set(sessions))
 
@@ -43,9 +21,15 @@ def printAll():
     for item in unqiues:
         print(item)
 
+filepaths = [
+    "C:/Users/seanl/Documents/PearsonData/Activity_report_trainings/Activity_report_trainings_cleaned.csv",
+    "C:/Users/seanl/Documents/PearsonData/Activity_report_with_student/Activity_report_with_student_cleaned.csv", 
+    "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/cleaned_number_of_logins.csv", 
+    "C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids_cleaned.csv"
+]
 
 def main():
-    printAll()
+    printAll(filepaths)
 
 if __name__ == "__main__":
     main()
