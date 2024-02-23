@@ -20,7 +20,7 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
         # check if we have header table, if so then grab header info 
         if "BITM" in row["Section"]:
             data = {
-                "StudentID": row["StudentNumber"],
+                "StudentNum": row["StudentNumber"],
                 "AvgNumLogins": row["Average number of logins"].strip(),
                 "NumSubmissions": row["Number of student submissions"].strip(),
                 "TotalCourseTime": row["Total Time in Course"].strip(),
@@ -88,9 +88,9 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
 
 def main():
     
-    dataFilePath = "C:/Users/seanl/Documents/PearsonData/Number_of_Logins_per_Student.csv"
+    dataFilePath = "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/Number_of_Logins_per_Student.csv"
 
-    outputFilePath = "C:/Users/seanl/Documents/PearsonData/cleaned_number_of_logins.csv"
+    outputFilePath = "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/cleaned_number_of_logins.csv"
 
     numLoginsCleanse(dataFilePath, outputFilePath)
 
