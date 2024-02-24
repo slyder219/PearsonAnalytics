@@ -1,4 +1,14 @@
 import pandas as pd
+from datetime import datetime
+
+def time_to_seconds(time_str):
+    try:
+        time_str = time_str.strip()  # Strip leading/trailing whitespace
+        time_obj = datetime.strptime(time_str, "%H:%M:%S")
+        total_seconds = time_obj.hour * 3600 + time_obj.minute * 60 + time_obj.second
+        return total_seconds
+    except:
+        return 0
 
 # function to check what type of data is in the column
 def checkType(data):
@@ -52,8 +62,52 @@ def renameColumns(filePaths):
             newName = input(f"\nFilepath: {filePath} \nEnter new name for column '{column}': ").strip()
             df = df.rename(columns={column: newName})
         df.to_csv(filePath, index=False)
-        
 
+# given a filpath to a csv that has a column with letter grades (column name given as arg), map to new column with numerical values
+def mapGrades(filePath, columnName):
+    df = pd.read_csv(filePath)
+    # create dictionary to map letter grades to numerical values
+    gradeMap = {
+        'A': 4.0,
+        'A-': 3.7,
+        'B+': 3.3,
+        'B': 3.0,
+        'B-': 2.7,
+        'C+': 2.3,
+        'C': 2.0,
+        'C-': 1.7,
+        'D+': 1.3,
+        'D': 1.0,
+        'F': 0.0
+    }
+    # create new column with numerical values
+    df['NumericalGrade'] = df[columnName].map(gradeMap)
+    df.to_csv(filePath, index=False)
+        
+# given csv path, for any column that has "time" in the name, add another column with the time in seconds
+def addSecondsColumn(filePath):
+    df = pd.read_csv(filePath)
+    for column in df.columns:
+        if 'time' in column.lower():
+            df[column + '_seconds'] = df[column].apply(lambda x: time_to_seconds(x) if time_to_seconds(x) != 0 else None)
+    df.to_csv(filePath, index=False)
+
+
+# given csv path, for any column name that has a space, replace with underscore
+def replaceSpaces(filePath):
+    df = pd.read_csv(filePath)
+    for column in df.columns:
+        if ' ' in column:
+            new_column = column.strip().replace(' ', '_')
+            df = df.rename(columns={column: new_column})
+    df.to_csv(filePath, index=False)
+
+
+# replace column "studentnumber" with "StudentNum"
+def replaceStudentNum(filePath):
+    df = pd.read_csv(filePath)
+    df = df.rename(columns={'StudentNumber': 'StudentNum'})
+    df.to_csv(filePath, index=False)
 
 
 def main():

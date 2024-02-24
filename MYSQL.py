@@ -58,7 +58,7 @@ def create_table(csv_path, table_name):
     with open(csv_path, 'r') as file:
         csv_reader = csv.reader(file)
         headers = next(csv_reader)  # First row has headers
-        columns = ', '.join([f'{header} {data_type}' for header, data_type in zip(headers, col_data_types)])
+        columns = ', '.join([f'`{header}` {data_type}' for header, data_type in zip(headers, col_data_types)])
         create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns})"
         cursor.execute(create_table_query)
         conn.commit()
@@ -70,7 +70,7 @@ def create_table(csv_path, table_name):
             cursor.execute(insert_query, row)
             conn.commit()
 
-# List of all file paths to clean
+# List of all file paths to add to the database
 filepaths = [
     "C:/Users/seanl/Documents/PearsonData/Activity_report_trainings/Activity_report_trainings_cleaned.csv",
     "C:/Users/seanl/Documents/PearsonData/Activity_report_with_student/Activity_report_with_student_cleaned.csv", 

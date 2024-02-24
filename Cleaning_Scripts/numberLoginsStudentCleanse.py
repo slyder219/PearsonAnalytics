@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 import json 
-
+import generalCleaning as gl
 
 def time_to_seconds(time_str):
         time_obj = datetime.strptime(time_str, "%H:%M:%S")
@@ -93,6 +93,8 @@ def main():
     outputFilePath = "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/cleaned_number_of_logins.csv"
 
     numLoginsCleanse(dataFilePath, outputFilePath)
+
+    
 
 if __name__ == "__main__":
     main()
