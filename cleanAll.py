@@ -37,8 +37,13 @@ def main():
     # gl.addSecondsColumn(filePath)
 
     # replace spaces with underscores
-    for filePath in cleanFilepaths:
-        gl.replaceSpaces(filePath)
+    # for filePath in cleanFilepaths:
+    #     gl.replaceSpaces(filePath)
+
+    # for filepath in cleanFilepaths:
+    #     gl.stripWhitespace(filepath)
+
+    pass
 
 
 if __name__ == "__main__":

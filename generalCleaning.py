@@ -109,6 +109,14 @@ def replaceStudentNum(filePath):
     df = df.rename(columns={'StudentNumber': 'StudentNum'})
     df.to_csv(filePath, index=False)
 
+# given csvpath strip leading and trailing whitespace from every cell
+def stripWhitespace(filePath):
+    df = pd.read_csv(filePath)
+    for column in df.columns:
+        if df[column].dtype == 'object':
+            df[column] = df[column].str.strip()
+    df.to_csv(filePath, index=False)
+
 
 def main():
     pass

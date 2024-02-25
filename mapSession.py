@@ -26,8 +26,10 @@ filepaths = [
 
 
 def main():
-    for filepath in filepaths:
-        map_session(filepath, session_map)
+    # for filepath in filepaths:
+    #     map_session(filepath, session_map)
+
+    map_session(filepaths[0], session_map)
 
 if __name__ == "__main__":
     main()
