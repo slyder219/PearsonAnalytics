@@ -16,11 +16,12 @@ from password import password
 def infer_data_types(csv_file, cursor):
     with open(csv_file, 'r') as file:
         csv_reader = csv.reader(file)
-        sample_data = next(csv_reader)  # Read the first row to infer data types
+        headers = next(csv_reader)  # Read the first row as headers
+        sample_data = next(csv_reader)  # Read the second row to infer data types
         studentnum_index = None
         data_types = []
         for i, value in enumerate(sample_data):
-            if value.lower() == "studentnum":
+            if headers[i].lower() == "studentnum":
                 studentnum_index = i
             # Infer data type based on the value
             try:
@@ -60,15 +61,27 @@ def create_table(csv_path, table_name, cursor, conn):
 
         # Insert data into table
         for row in csv_reader:
-            placeholders = ', '.join(['%s'] * len(row))
+            sanitized_row = []
+            for value, data_type in zip(row, col_data_types):
+                try:
+                    if data_type == 'INT':
+                        sanitized_value = int(value) if value != '' else None
+                    elif data_type == 'FLOAT':
+                        sanitized_value = float(value) if value != '' else None
+                    else:
+                        sanitized_value = value
+                except ValueError:
+                    sanitized_value = None
+                sanitized_row.append(sanitized_value)
+            placeholders = ', '.join(['%s'] * len(sanitized_row))
             insert_query = f"INSERT INTO {table_name} VALUES ({placeholders})"
-            cursor.execute(insert_query, row)
+            cursor.execute(insert_query, sanitized_row)
             conn.commit()
 
 # List of all file paths to add to the database
 filepaths = [
-    "C:/Users/seanl/Documents/PearsonData/Activity_report_trainings/Activity_report_trainings_cleaned.csv",
-    "C:/Users/seanl/Documents/PearsonData/Activity_report_with_student/Activity_report_with_student_cleaned.csv", 
+    "C:/Users/seanl/Documents/PearsonData/Activity_report_trainings/activity_report_trainings_cleaned.csv",
+    "C:/Users/seanl/Documents/PearsonData/Activity_report_with_student/activity_report_with_student_cleaned.csv", 
     "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/cleaned_number_of_logins.csv", 
     "C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids_cleaned.csv"
 ]

@@ -46,7 +46,7 @@ filepaths = [
 def main():
     
     # table we want to update:
-    csvTablePath = "C:/Users/seanl/Documents/PearsonData/Activity_report_trainings/Activity_report_trainings_cleaned.csv"
+    csvTablePath = filepaths[3]
 
     # table name:
     tableName = get_table_name(csvTablePath)

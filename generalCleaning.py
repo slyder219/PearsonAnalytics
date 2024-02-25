@@ -78,7 +78,10 @@ def mapGrades(filePath, columnName):
         'C-': 1.7,
         'D+': 1.3,
         'D': 1.0,
-        'F': 0.0
+        'D-': 0.7,
+        'F': 0.0,
+        'W': 0.0,
+        'E': 0.0,
     }
     # create new column with numerical values
     df['NumericalGrade'] = df[columnName].map(gradeMap)
