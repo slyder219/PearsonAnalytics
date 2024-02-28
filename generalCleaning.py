@@ -1,6 +1,12 @@
 import pandas as pd
 from datetime import datetime
 
+def saveDFasCSV(df, filePath):
+    df.to_csv(filePath, index=False)
+
+def csvToDF(filePath):
+    return pd.read_csv(filePath)
+
 def time_to_seconds(time_str):
     try:
         time_str = time_str.strip()  # Strip leading/trailing whitespace
@@ -33,11 +39,11 @@ def cleanColumns(df):
         # check if column is int type
         if checkType(df[column]) == 'int':
             # remove any whitespace
-            df[column] = df[column].astype(int)
+            df[column] = df[column].astype(int, errors='ignore')
         # check if column is float type
         if checkType(df[column]) == 'float':
             # remove any whitespace
-            df[column] = df[column].astype(float)
+            df[column] = df[column].astype(float, errors='ignore')
     # drop any duplicate rows
     df = df.drop_duplicates()
     return df
@@ -55,7 +61,16 @@ def cleanAllFiles(filePaths):
 
 # given list of filepaths to csvs, use input to rename columns and save file with same name to replace 
 def renameColumns(filePaths):
-    for filePath in filePaths:
+    if isinstance(filePaths, list):
+        for filePath in filePaths:
+            df = pd.read_csv(filePath)
+            # iter through each column
+            for column in df.columns:
+                newName = input(f"\nFilepath: {filePath} \nEnter new name for column '{column}': ").strip()
+                df = df.rename(columns={column: newName})
+            df.to_csv(filePath, index=False)
+    else:
+        filePath = filePaths
         df = pd.read_csv(filePath)
         # iter through each column
         for column in df.columns:

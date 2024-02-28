@@ -21,14 +21,22 @@ def map_session(csv_path, session_map):
     # save new csv
     df.to_csv(csv_path, index=False)
 
+# delete columns "sessionnum" if it exists
+def delete_sessionnum(csv_path):
+    df = pd.read_csv(csv_path)
+    if "sessionnum" in df.columns:
+        df = df.drop(columns=["sessionnum"])
+        df.to_csv(csv_path, index=False)
+
 
 
 def main():
 
-    sessionMapPath = "C:/Users/seanl/Documents/PearsonData/SQL_Outputs/studentnum_sessionnum_KEY.csv"
+    sessionMapPath = "C:/Users/seanl/Documents/PearsonData/SQL_Outputs/OG_studentnum_sessionnum_KEY.csv"
     sessionMap = get_session_map(sessionMapPath)
 
     for file in filepaths:
+        delete_sessionnum(file)
         map_session(file, sessionMap)
     
 

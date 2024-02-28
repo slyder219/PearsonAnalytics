@@ -20,6 +20,10 @@ cleanFilepaths = [
     "C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids_cleaned.csv"
 ]
 
+ogFilepaths = [
+    "C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids.csv",
+]
+
 
 
 
@@ -27,7 +31,10 @@ def main():
     # clean all files
     # cleanedFilePaths = gl.cleanAllFiles(filePaths)
     # rename columns
-    # gl.renameColumns(cleanedFilePaths)
+    # gl.renameColumns(ogFilepaths[0])
+
+    gl.saveDFasCSV(gl.cleanColumns(gl.csvToDF(ogFilepaths[0])), ogFilepaths[0])
+    
 
     # add numerical column for letter grades to student info ids sheet
     # gl.mapGrades("C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids_cleaned.csv", "Official_Grade")
