@@ -38,7 +38,7 @@ ogFilepaths = [
 def main():
     
     # table we want to update:
-    csvTablePath = "C:/Users/seanl/Documents/PearsonData/working_data/student_logins/student_logins_cleaned.csv"
+    csvTablePath = "C:/Users/seanl/Documents/PearsonData/working_data/main_students/main_students.csv"
 
     # table name:
     tableName = get_table_name(csvTablePath)
