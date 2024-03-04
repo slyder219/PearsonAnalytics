@@ -202,6 +202,9 @@ def fixNulls(filePaths):
 # given filepath check "instructor" column and makes dummy variable for if there are two instructors
 def twoInstructors(filePath):
     df = pd.read_csv(filePath)
+    if "two_instructors" in df.columns:
+        print("Column 'two_instructors' already exists in the file.")
+        return
     if "instructor" in df.columns:
         df['two_instructors'] = df['instructor'].apply(lambda x: 1 if ';' in x else 0)
         df.to_csv(filePath, index=False)
@@ -215,6 +218,15 @@ def twoInstructors(filePath):
 def convertPercentage(filePath, columnName):
     df = pd.read_csv(filePath)
     df[columnName] = df[columnName].apply(lambda x: float(''.join(filter(lambda c: c.isdigit() or c == '.', str(x)))) / 100 if pd.notnull(x) else x)
+    df.to_csv(filePath, index=False)
+
+# given fielpath and column activity_name, ("Access Chapter 1: Hands-On Exercise 1 Simulation Training"), add column chapter_number 
+def addChapterNumber(filePath, columnName):
+    df = pd.read_csv(filePath)
+    if "chapter_number" in df.columns:
+        print("Column 'chapter_number' already exists in the file.")
+        return
+    df["chapter_number"] = df[columnName].str.extract(r"(\d+)")
     df.to_csv(filePath, index=False)
 
 def main():
