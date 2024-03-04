@@ -9,8 +9,11 @@ import csv
 import mysql.connector
 
 sys.path.append(r'C:/Users/seanl/Documents/tempSysPath')
-
 from password import password
+
+import sys
+sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
+import getFilePaths as gfp
 
 # Function to infer data types from CSV columns
 def infer_data_types(csv_file, cursor):
@@ -88,7 +91,12 @@ filepaths = [
 ]
 
 def main():
-        # Connect to MySQL and create a database
+    
+    uncleaned_files, cleaned_files = gfp.separate_files_by_cleaned_status_v2("C:/Users/seanl/Documents/PearsonData/working_data")
+
+    cleaned_files.append("C:/Users/seanl/Documents/PearsonData/working_data/student_logins/student_logins.csv")
+
+    # Connect to MySQL and create a database
     conn = mysql.connector.connect(
         host="localhost",
         user="root",
@@ -99,14 +107,14 @@ def main():
     # Create a cursor object to execute SQL queries
     cursor = conn.cursor()
 
-        # Drop all tables in the database
+    # Drop all tables in the database
     drop_all_tables(cursor)
 
     # Commit the changes
     conn.commit()
 
     # Iterate over CSV files and create tables
-    for filepath in filepaths:
+    for filepath in cleaned_files:
         table_name = os.path.splitext(os.path.basename(filepath))[0]  # Use file name as table name
         create_table(filepath, table_name, cursor, conn)
 

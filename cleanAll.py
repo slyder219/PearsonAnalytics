@@ -1,5 +1,11 @@
 import generalCleaning as gl
 
+# add to sys.path so we can import getFilePaths
+import sys
+sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
+
+import getFilePaths as gfp
+
 # list of all file paths to clean
 filePaths = [
     "C:/Users/seanl/Documents/PearsonData/Activity_report_trainings/Activity_report_trainings.csv", 
@@ -24,31 +30,19 @@ ogFilepaths = [
     "C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids.csv",
 ]
 
+freq_report = "C:/Users/seanl/Documents/PearsonData/working_data/frequency_analysis_report/freq_report.csv"
+freq_report_cleaned = "C:/Users/seanl/Documents/PearsonData/working_data/frequency_analysis_report/freq_report_cleaned.csv"
 
 
 
 def main():
-    # clean all files
-    # cleanedFilePaths = gl.cleanAllFiles(filePaths)
-    # rename columns
-    # gl.renameColumns(ogFilepaths[0])
 
-    gl.saveDFasCSV(gl.cleanColumns(gl.csvToDF(ogFilepaths[0])), ogFilepaths[0])
+    # get file paths
+    non_cleaned_files, cleaned_files = gfp.separate_files_by_cleaned_status_v2("C:/Users/seanl/Documents/PearsonData/working_data")
     
 
-    # add numerical column for letter grades to student info ids sheet
-    # gl.mapGrades("C:/Users/seanl/Documents/PearsonData/student_info_ids/student_info_ids_cleaned.csv", "Official_Grade")
+    gl.fixNulls(cleaned_files)
 
-    # add second column where necessary 
-    # for filePath in timeFilePaths:
-    # gl.addSecondsColumn(filePath)
-
-    # replace spaces with underscores
-    # for filePath in cleanFilepaths:
-    #     gl.replaceSpaces(filePath)
-
-    # for filepath in cleanFilepaths:
-    #     gl.stripWhitespace(filepath)
 
     pass
 
