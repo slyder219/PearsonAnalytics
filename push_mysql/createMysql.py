@@ -28,8 +28,8 @@ def infer_data_types(csv_file, cursor):
                 studentnum_index = i
             # Infer data type based on the value
             try:
-                int(value)
-                data_types.append('INT')  # Treat as integer
+                float(value)
+                data_types.append('FLOAT')  # Treat as float
             except ValueError:
                 try:
                     float(value)
@@ -54,6 +54,8 @@ def drop_all_tables(cursor):
 
 def create_table(csv_path, table_name, cursor, conn):
     col_data_types = infer_data_types(csv_path, cursor)
+    # Treat all 'INT' data types as 'FLOAT'
+    col_data_types = ['FLOAT' if data_type == 'INT' else data_type for data_type in col_data_types]
     with open(csv_path, 'r') as file:
         csv_reader = csv.reader(file)
         headers = next(csv_reader)  # First row has headers
@@ -67,10 +69,8 @@ def create_table(csv_path, table_name, cursor, conn):
             sanitized_row = []
             for value, data_type in zip(row, col_data_types):
                 try:
-                    if data_type == 'INT':
-                        sanitized_value = int(value) if value != '' else None
-                    elif data_type == 'FLOAT':
-                        sanitized_value = float(value) if value != '' else None
+                    if data_type == 'FLOAT':
+                        sanitized_value = value.strip() if value != '' and value != "--" else None
                     else:
                         sanitized_value = value
                 except ValueError:
