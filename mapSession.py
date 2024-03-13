@@ -7,6 +7,7 @@ sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
 
 import getFilePaths as gfp
 
+
 # load session map from json file as dictionary
 with open("sessionMap.json", "r") as file:
     session_map = json.load(file)
@@ -44,6 +45,8 @@ filepaths = [
 
 
 def main():
+
+    
     # for filepath in filepaths:
     #     map_session(filepath, session_map)
 
