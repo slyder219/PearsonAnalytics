@@ -94,7 +94,7 @@ def main():
     
     uncleaned_files, cleaned_files = gfp.separate_files_by_cleaned_status_v2("C:/Users/seanl/Documents/PearsonData/working_data")
 
-    cleaned_files.append("C:/Users/seanl/Documents/PearsonData/working_data/main_students/main_students.csv")
+    
 
     # Connect to MySQL and create a database
     conn = mysql.connector.connect(
