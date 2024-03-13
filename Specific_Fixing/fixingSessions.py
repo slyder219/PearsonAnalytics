@@ -35,9 +35,9 @@ def main():
     sessionMapPath = "C:/Users/seanl/Documents/PearsonData/SQL_Outputs/studentnum_sessionnum_KEY.csv"
     sessionMap = get_session_map(sessionMapPath)
 
-    for file in filepaths:
-        delete_sessionnum(file)
-        map_session(file, sessionMap)
+    file = "C:/Users/seanl/Documents/PearsonData/working_data/capstone_activity_report/capstone_ac_rep_cleaned.csv"
+    delete_sessionnum(file)
+    map_session(file, sessionMap)
     
 
 if __name__ == "__main__":

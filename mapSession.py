@@ -18,7 +18,11 @@ def map_session(csv_path, session_map):
     # read csv
     df = pd.read_csv(csv_path)
 
-    
+    # first delete "sessionnum" column if it exists
+    if "sessionnum" in df.columns:
+        df = df.drop(columns=["sessionnum"])
+        df.to_csv(csv_path, index=False)
+        
     if "Session" in df.columns:
         # map "Session" column
         df["sessionnum"] = df["Session"].map(session_map)
