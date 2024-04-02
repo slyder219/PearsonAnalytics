@@ -5,7 +5,7 @@ import generalCleaning as gl
 sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
 import getFilePaths as gfp
 
-main_students = "C:/Users/seanl/Documents/PearsonData/working_data/main_students/main_students_cleaned.csv"
+main_students = gfp.get_filepath_list_by_keyword("main, students", clean = False)[0]
 
 if __name__ == "__main__":
 
