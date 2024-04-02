@@ -136,12 +136,12 @@ def mapGrades(filePath, columnName):
     df['NumericalGrade'] = df[columnName].map(gradeMap)
     df.to_csv(filePath, index=False)
         
-# given csv path, for any column that has "time" in the name, add another column with the time in seconds
-def addSecondsColumn(filePath):
+def addSecondsColumn(filePath, *columnKeywords):
     df = pd.read_csv(filePath)
     for column in df.columns:
-        if 'time' in column.lower():
-            df[column + '_seconds'] = df[column].apply(lambda x: time_to_seconds(x) if time_to_seconds(x) != 0 else None)
+        for keyword in columnKeywords:
+            if keyword.lower() in column.lower():
+                df[column + 'Seconds'] = df[column].apply(lambda x: time_to_seconds(x) if time_to_seconds(x) != 0 else None)
     df.to_csv(filePath, index=False)
 
 
@@ -187,6 +187,8 @@ def shouldBeNull(x):
         return None
     elif "--:--:--" in str(x):
         return None
+    elif " " == str(x):
+        return None
     else: 
         return x
 
@@ -228,6 +230,53 @@ def addChapterNumber(filePath, columnName):
         return
     df["chapter_number"] = df[columnName].str.extract(r"(\d+)")
     df.to_csv(filePath, index=False)
+
+def remove_spaces_from_columns(filepath, output_filepath=None):
+    # Load the CSV file
+    df = pd.read_csv(filepath)
+    
+    # Remove spaces from column names
+    new_columns = {col: col.replace(" ", "") for col in df.columns}
+    df.rename(columns=new_columns, inplace=True)
+    
+    # Save the modified DataFrame
+    if not output_filepath:
+        output_filepath = filepath  # Overwrite the original file if no output file is specified
+    df.to_csv(output_filepath, index=False)
+
+def remove_percent_sign_and_convert_to_float(value):
+    """
+    Remove '%' sign from the string and convert it to a float.
+    If the value does not contain a '%', return the original value.
+    """
+    if isinstance(value, str):
+        if "*" in value:
+            value = value.replace("*", "")
+        if "%" in value:
+            value = value.replace('%', '')
+        if isinstance(value, float):
+            return value 
+        else:
+            return float(value.strip()) 
+
+def process_columns_with_percent_signs(filepath, output_filepath=None):
+    # Load the CSV file
+    df = pd.read_csv(filepath)
+    
+    for column in df.columns:
+        # Count non-null values that contain '%'
+        percent_values_count = df[column].dropna().apply(lambda x: '%' in str(x)).sum()
+        
+        # If majority of non-null values contain '%'
+        if percent_values_count > 0.5 * df[column].notna().sum():
+            # Apply function to the whole column
+            df[column] = df[column].apply(remove_percent_sign_and_convert_to_float)
+    
+    # Save the modified DataFrame
+    if not output_filepath:
+        output_filepath = filepath  # Overwrite the original file if no output file is specified
+    df.to_csv(output_filepath, index=False)
+
 
 def main():
     pass

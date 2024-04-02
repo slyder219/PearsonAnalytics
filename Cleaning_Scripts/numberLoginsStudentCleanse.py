@@ -1,14 +1,18 @@
 import pandas as pd
 from datetime import datetime
 import json 
-import generalCleaning as gl
+# import generalCleaning as gl
+# add to sys.path so we can import getFilePaths
+import sys
+sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
+import getFilePaths as gfp
 
 def time_to_seconds(time_str):
         time_obj = datetime.strptime(time_str, "%H:%M:%S")
         total_seconds = time_obj.hour * 3600 + time_obj.minute * 60 + time_obj.second
         return total_seconds
 
-def numLoginsCleanse(dataFilePath, outputFilePath):
+def numLoginsCleanse(dataFilePath, outputFilePath=None):
     df = pd.read_csv(dataFilePath)
 
     # empty list to store student data
@@ -20,7 +24,7 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
         # check if we have header table, if so then grab header info 
         if "BITM" in row["Section"]:
             data = {
-                "StudentNum": row["StudentNumber"],
+                "Student_ID": row["Student_ID"],
                 "AvgNumLogins": row["Average number of logins"].strip(),
                 "NumSubmissions": row["Number of student submissions"].strip(),
                 "TotalCourseTime": row["Total Time in Course"].strip(),
@@ -28,7 +32,7 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
                 "LastLogin": row["Last Login"].strip(),
                 "EnrollmentDate": row["Enrollment Date"].strip(),
                 "Instructor": row["Instructor"].strip(),
-                "Section": row["Section"].strip() }
+                "Session": row["Section"].strip() }
             
             # add all that data to list 
             newData.append(data)
@@ -63,10 +67,10 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
     with open('sessionMap.json') as f:
         sectionMap = json.load(f)
     
-    new_df['Section'] = new_df['Section'].map(sectionMap)
+    new_df['SessionNum'] = new_df['Session'].map(sectionMap)
 
     # rename that column to Session
-    new_df = new_df.rename(columns={'Section': 'Session'})
+    # new_df = new_df.rename(columns={'Section': 'Session'})
 
     # EnrollmentDate format: 8/31/2021 3:17:52 PM
     # Last Login Format: 11/22/2021 7:32:11 PM
@@ -79,8 +83,11 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
     # convert to just days
     new_df['DaysBetweenEnrollmentAndLastLogin'] = new_df['TimeBetweenEnrollmentAndLastLogin'].dt.days
 
-    # Save the updated DataFrame to a CSV file
-    new_df.to_csv(outputFilePath, index=False)
+    if outputFilePath is not None:
+        # Save the updated DataFrame to a CSV file
+        new_df.to_csv(outputFilePath, index=False)
+    else:
+        new_df.to_csv(dataFilePath, index=False)
 
 
 
@@ -88,11 +95,11 @@ def numLoginsCleanse(dataFilePath, outputFilePath):
 
 def main():
     
-    dataFilePath = "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/Number_of_Logins_per_Student.csv"
+    dataFilePath = gfp.get_filepath_list_by_keyword("number, logins, student", clean = True)[0]
 
-    outputFilePath = "C:/Users/seanl/Documents/PearsonData/Number_of_logins_per_student/cleaned_number_of_logins.csv"
+    
 
-    numLoginsCleanse(dataFilePath, outputFilePath)
+    numLoginsCleanse(dataFilePath)
 
     
 

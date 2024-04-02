@@ -10,8 +10,10 @@ non_cleaned_files, cleaned_files = gfp.separate_files_by_cleaned_status_v2("C:/U
 # for filepath in non_cleaned_files:
 #     print(filepath)
 
-print(
+# print(
 
-    gfp.get_filepath_list_by_keyword("main, students", clean = False)[0]
+#     gfp.get_filepath_list_by_keyword("number, logins, student", clean = False)[0]
+# )
 
-)
+for file in cleaned_files:
+    print(file)

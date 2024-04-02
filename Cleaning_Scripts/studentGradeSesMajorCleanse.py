@@ -1,16 +1,19 @@
 import pandas as pd
 import json
-
+# add to sys.path so we can import getFilePaths
+import sys
+sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
+import getFilePaths as gfp
 
 def cleanse():
     
-    df = pd.read_csv('Data/StudentGradeSessionMajor.csv')
+    df = pd.read_csv(gfp.get_filepath_list_by_keyword("main, students, student", clean = True)[0])
 
     # strip white space where we can 
     df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
     # drop rows without studentID
-    df = df.dropna(subset=['StudentID'])
+    df = df.dropna(subset=['Student_ID'])
 
     # drop rows without grades
     df = df.dropna(subset=['Official Grade'])
@@ -56,7 +59,7 @@ def cleanse():
         sessionMap = json.load(file)
 
     # map section from json file
-    df['Session'] = df['Session'].map(sessionMap)
+    df['SessionNumber'] = df['Session'].map(sessionMap)
 
     
 
@@ -64,7 +67,8 @@ def cleanse():
     df = df.drop_duplicates()
 
     # output csv
-    df.to_csv('Data_Outputs/cleaned_studentGradeSesMajor.csv', index=False)
+    df.to_csv(gfp.get_filepath_list_by_keyword("main, students, student", clean = True)[0], 
+              index=False)
 
 
 
