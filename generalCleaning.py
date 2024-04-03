@@ -225,10 +225,10 @@ def convertPercentage(filePath, columnName):
 # given fielpath and column activity_name, ("Access Chapter 1: Hands-On Exercise 1 Simulation Training"), add column chapter_number 
 def addChapterNumber(filePath, columnName):
     df = pd.read_csv(filePath)
-    if "chapter_number" in df.columns:
+    if "chapter_number" in df.columns or "ChapterNumber" in df.columns:
         print("Column 'chapter_number' already exists in the file.")
         return
-    df["chapter_number"] = df[columnName].str.extract(r"(\d+)")
+    df["ChapterNumber"] = df[columnName].str.extract(r"(\d+)")
     df.to_csv(filePath, index=False)
 
 def remove_spaces_from_columns(filepath, output_filepath=None):

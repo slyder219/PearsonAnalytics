@@ -5,14 +5,18 @@ import generalCleaning as gl
 sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
 import getFilePaths as gfp
 
-training_act_rep = "C:/Users/seanl/Documents/PearsonData/working_data/training_activity_report/training_act_rep_cleaned.csv"
 
 if __name__ == "__main__":
     
-    df = pd.read_csv(training_act_rep)
+    nonClean, clean = gfp.separate_files_by_cleaned_status_v2("C:/Users/seanl/Documents/PearsonData/working_data")
 
-    df["activity_lvl_avg_score"] = [float(val) * 100 for val in df["activity_lvl_avg_score"]]
-    df['score'] = [float(val) * 100 for val in df['score']]
+    training = gfp.get_filepath_list_by_keyword("training, act, rep", clean = True)[0]
+
+    df = pd.read_csv(training)
+    
+    df["ChapterNumber"] = df["ActivityName"].str.extract(r"(\d+)")
 
 
-    pass
+    #save
+    df.to_csv(training, index=False)
+

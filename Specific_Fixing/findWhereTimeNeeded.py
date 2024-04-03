@@ -38,7 +38,7 @@ def time_to_seconds(time_input):
 def time_bool(value):
     try:
         output = time_to_seconds(value)
-        if isinstance(output, int):
+        if isinstance(output, int) and output != 0:
             return True
         else:
             return False
@@ -61,7 +61,7 @@ def main(csvFilePath, outputFilePath = None):
 
         validCount = df[column].dropna().apply(time_bool).sum()
 
-        if validCount <= 0.75 * len(df[column].dropna()):
+        if validCount >= 0.50 * len(df[column].dropna()):
 
             print(
                 f"Valid count achieved for column {column} in file {csvFilePath}\n"

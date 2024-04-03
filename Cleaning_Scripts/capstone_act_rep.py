@@ -5,15 +5,29 @@ import generalCleaning as gl
 sys.path.append("C:/Users/seanl/Documents/PearsonAnalytics/Specific_Fixing")
 import getFilePaths as gfp
 
-capstone_act_rep = "C:/Users/seanl/Documents/PearsonData/working_data/capstone_activity_report/capstone_ac_rep_cleaned.csv"
+def hwOrAs(filepath):
+    df = pd.read_csv(filepath)
 
-if __name__ == "__main__":
-    
-    df = pd.read_csv(capstone_act_rep)
+    df["IsAssessment"] = df["Type"].apply(lambda x: 0 if "homework" in x.lower() else 1)
 
-    # acitivty_name column looks like this: Access Chapter 10 Capstone Assessment - Drivers (PC only). Parse out the chapter number into new column
-    df["chapter_number"] = df["activity_name"].str.extract(r"(\d+)")
-    
-    df.to_csv(capstone_act_rep, index=False)
+    df.to_csv(filepath, index=False)
 
     pass
+
+
+if __name__ == "__main__":
+
+    nonClean, clean = gfp.separate_files_by_cleaned_status_v2("C:/Users/seanl/Documents/PearsonData/working_data")
+
+    capstone = gfp.get_filepath_list_by_keyword("capstone, act, rep", clean = True)[0]
+    
+    # df = pd.read_csv(capstone)
+
+    # # acitivty_name column looks like this: Access Chapter 10 Capstone Assessment - Drivers (PC only). Parse out the chapter number into new column
+    # df["ChapterNumber"] = df["ActivityName"].str.extract(r"(\d+)")
+    
+    # df.to_csv(capstone, index=False)
+
+    # pass
+
+    hwOrAs(capstone)
