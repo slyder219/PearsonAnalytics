@@ -40,7 +40,4 @@ if __name__ == "__main__":
     df["SubChapter"] = df["QuestionTitle"].apply(lambda x: getNumbers(x, "subchapter"))
     df["QuestionNumber"] = df["QuestionTitle"].apply(lambda x: getNumbers(x, "question"))
 
-
-
-
     df.to_csv(freq_report_cleaned, index=False)

@@ -37,17 +37,12 @@ def infer_data_types(csv_file, cursor):
                 except ValueError:
                     data_types.append('VARCHAR(255)')  # If value is neither int nor float, treat as string
         return data_types
-
-
-
 # Function to drop all tables in the database
 def drop_all_tables(cursor):
     cursor.execute("SHOW TABLES")
     tables = cursor.fetchall()
     for table in tables:
         cursor.execute(f"DROP TABLE {table[0]}")
-
-
 
 # Create the 'pearson' database if it doesn't exist
 # cursor.execute("CREATE DATABASE IF NOT EXISTS pearson")

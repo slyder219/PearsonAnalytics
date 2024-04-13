@@ -61,18 +61,12 @@ def cleanse():
     # map section from json file
     df['SessionNumber'] = df['Session'].map(sessionMap)
 
-    
-
     # drop any duplicate rows
     df = df.drop_duplicates()
 
     # output csv
     df.to_csv(gfp.get_filepath_list_by_keyword("main, students, student", clean = True)[0], 
               index=False)
-
-
-
-
 
 def main():
     cleanse()
